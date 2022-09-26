@@ -14,9 +14,9 @@ import { onMounted, ref } from 'vue';
 import {APIInstance} from '@/axios';
 
 const users = ref([]);
-const API = APIInstance();
 
 async function getUsers() {
+    const API = APIInstance();
     API.get("/api/user").then((res) => {
         users.value = res.data;
     });
