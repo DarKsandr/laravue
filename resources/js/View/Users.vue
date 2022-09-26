@@ -10,18 +10,20 @@
     </div>
 </template>
 <script setup>
-    import { onMounted, ref } from 'vue';
-    import {APIInstance} from '@/axios';
-    const users = ref([]);
+import { onMounted, ref } from 'vue';
+import {APIInstance} from '@/axios';
 
-    async function getUsers(){
-        APIInstance.get("/api/user").then((res) => {
-            users.value = res.data;
-        });
-    }
+const users = ref([]);
+const API = APIInstance();
 
-    onMounted(getUsers);
+async function getUsers() {
+    API.get("/api/user").then((res) => {
+        users.value = res.data;
+    });
+}
+
+onMounted(getUsers);
 </script>
 <style>
-    
+
 </style>
