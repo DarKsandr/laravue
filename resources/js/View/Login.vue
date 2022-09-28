@@ -17,20 +17,21 @@
 </template>
 <script setup>
 import { ref } from 'vue';
-import { token } from '@/token'
-import axios from 'axios';
+import { useTokenStore } from '@/store/token'
+import {defaultInstance} from '@/axios';
 import { useRouter } from 'vue-router';
 
 const email = ref();
 const password = ref();
 const router = useRouter()
+const token = useTokenStore()
 
 async function login() {
-    axios.post('/api/login', {
+    defaultInstance.post('/api/login', {
         email: email.value,
         password: password.value,
     }).then(res => {
-        token.value = res.data.token
+        token.setToken(res.data.token);
         router.push('/');
     });
 }

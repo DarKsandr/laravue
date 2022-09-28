@@ -1,11 +1,19 @@
 import axios from "axios";
-import { token } from "@/token";
+import { useTokenStore } from "@/store/token";
 
-const APIInstance = () => axios.create({
+const defaultInstance = axios.create();
+
+const APIInstance = axios.create({
     headers: {
         Accept: "application/json",
-        Authorization: `Bearer ${token.value}`,
     }
 });
+APIInstance.interceptors.response.use(response => response, reject => {
+    const token = useTokenStore();
+    if(reject.response.status == '401'){
+        token.deleteToken();
+    }
+    return Promise.reject(reject);
+})
 
-export {APIInstance}
+export {defaultInstance, APIInstance}

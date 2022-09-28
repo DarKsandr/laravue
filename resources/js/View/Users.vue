@@ -16,8 +16,7 @@ import {APIInstance} from '@/axios';
 const users = ref([]);
 
 async function getUsers() {
-    const API = APIInstance();
-    API.get("/api/user").then((res) => {
+    APIInstance.get("/api/user").then((res) => {
         users.value = res.data;
     });
 }

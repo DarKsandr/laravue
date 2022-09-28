@@ -3,17 +3,37 @@ import Home from './View/Home.vue'
 import Login from './View/Login.vue'
 import Register from './View/Register.vue'
 import Users from './View/Users.vue'
+import {useTokenStore} from '@/store/token';
+
+const authGuard = (to, from) => {
+  const token = useTokenStore();
+  if(!token.isAuth) return {name: "login"};
+};
 
 const routes = [
-  { path: '/', component: Home },
-  { path: '/login', component: Login },
-  { path: '/register', component: Register },
-  { path: '/users', component: Users },
+  { 
+    path: '/', 
+    component: Home,
+    name: "home",
+  },
+  { 
+    path: '/login', 
+    component: Login,
+    name: "login",
+  },
+  { 
+    path: '/register', 
+    component: Register,
+    name: "register",
+  },
+  { 
+    path: '/users', 
+    component: Users,
+    name: "users",
+    beforeEnter: authGuard,
+  },
 ]
 
-// 3. Create the router instance and pass the `routes` option
-// You can pass in additional options here, but let's
-// keep it simple for now.
 export default createRouter({
   // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
   history: createWebHashHistory(),
